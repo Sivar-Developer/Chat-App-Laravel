@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Passport\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use App\Http\Controllers\ChatController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('register', [AuthController::class, 'register']);
 
 Route::group(['prefix' => 'chat', 'middleware' => ['auth:api']], function() {
     Route::get('inbox', [ChatController::class, 'conversations']);

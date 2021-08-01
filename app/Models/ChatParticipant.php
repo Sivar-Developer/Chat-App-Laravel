@@ -11,9 +11,9 @@ class ChatParticipant extends Model
 
     protected $guarded = [];
 
-    public function conversation()
+    public function chatConversation()
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(ChatConversation::class);
     }
 
     public function user()

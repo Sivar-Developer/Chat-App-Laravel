@@ -10,9 +10,9 @@ use App\Models\ChatMessage;
 
 class ChatController extends Controller
 {
-    public function conversaions()
+    public function conversations()
     {
-        $conversations = auth('api')->user()->participants()->conversation()->with('messages', function($query) {
+        $conversations = auth('api')->user()->chatParticipants()->with('chatConversation.chatMessages', function($query) {
             return $query->latest()->first();
         })->get();
 

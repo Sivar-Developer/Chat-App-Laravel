@@ -16,8 +16,8 @@ class ChatConversation extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function messages()
+    public function chatMessages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(ChatMessage::class);
     }
 }
