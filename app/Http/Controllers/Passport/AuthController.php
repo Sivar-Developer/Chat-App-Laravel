@@ -53,4 +53,9 @@ class AuthController extends Controller
 
         return \Route::dispatch($token);
     }
+
+    public function user()
+    {
+        return response()->json(auth('api')->user(), 200);
+    }    
 }

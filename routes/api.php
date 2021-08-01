@@ -18,6 +18,7 @@ use App\Http\Controllers\Passport\AuthController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::get('users', [ChatController::class, 'users']);
+Route::get('user', [AuthController::class, 'user']);
 
 Route::group(['prefix' => 'chat', 'middleware' => ['auth:api']], function() {
     Route::get('inbox', [ChatController::class, 'conversations']);
