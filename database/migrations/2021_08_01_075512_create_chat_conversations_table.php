@@ -15,6 +15,8 @@ class CreateChatConversationsTable extends Migration
     {
         Schema::create('chat_conversations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('creator_id')->constrained('users');
+            $table->string('title')->nullable();
             $table->timestamps();
         });
     }

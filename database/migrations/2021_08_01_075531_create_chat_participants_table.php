@@ -15,6 +15,10 @@ class CreateChatParticipantsTable extends Migration
     {
         Schema::create('chat_participants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('chat_conversation_id')->constrained('chat_conversations');
+            $table->foreignId('user_id')->constrained('users');
+            $table->unique(['chat_conversation_id','user_id']);
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
     }
