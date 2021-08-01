@@ -39,4 +39,11 @@ class ChatController extends Controller
 
         return response()->json(null, 201);
     }
+
+    public function users()
+    {
+        $users = User::all();
+
+        return response()->json($users, 200);
+    }
 }
