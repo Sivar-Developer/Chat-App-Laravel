@@ -18,6 +18,11 @@ class ChatConversation extends Model
 
     public function chatMessages()
     {
-        return $this->hasMany(ChatMessage::class);
+        return $this->hasMany(ChatMessage::class)->latest();
+    }
+
+    public function chatParticipants()
+    {
+        return $this->hasMany(ChatParticipant::class);
     }
 }

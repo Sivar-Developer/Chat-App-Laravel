@@ -20,4 +20,6 @@ Route::post('register', [AuthController::class, 'register']);
 
 Route::group(['prefix' => 'chat', 'middleware' => ['auth:api']], function() {
     Route::get('inbox', [ChatController::class, 'conversations']);
+    Route::get('conversation/{chat_conversaion}', [ChatController::class, 'conversation']);
+    Route::post('message/store', [ChatController::class, 'storeMessage']);
 });

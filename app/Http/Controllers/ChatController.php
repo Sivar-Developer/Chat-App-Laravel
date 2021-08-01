@@ -12,15 +12,31 @@ class ChatController extends Controller
 {
     public function conversations()
     {
-        $conversations = auth('api')->user()->chatParticipants()->with('chatConversation.chatMessages', function($query) {
-            return $query->latest()->first();
-        })->get();
+        $chatConversationIds = ChatParticipant::where('user_id', auth('api')->id())->get()->pluck('chat_conversation_id');
+        $chatConversations = ChatConversation::with('chatMessages')->with('chatParticipants')->whereIn('id', $chatConversationIds)->get();
 
-        return response()->json($conversations, 200);
+        return response()->json($chatConversations, 200);
+    }
+
+    public function conversation($chat_conversation)
+    {
+        $chatMessages = ChatMessage::where('chat_conversation_id', $chat_conversation)->latest()->get();
+
+        return response()->json($chatMessages, 200);
     }
 
     public function storeMessage(Request $request)
     {
+        $chatConversation = ChatConversation::updateOrCreate(['id' => request('chat_conversation_id')],['creator_id' => auth('api')->id()]);
 
+        $chatConversation->chatParticipants()->updateOrCreate(['user_id' => request('chat_participant_id')]);
+
+        ChatMessage::create([
+            'sender_id' => auth('api')->id(),
+            'chat_conversation_id' => $chatConversation->id,
+            'body' => request('message')
+        ]);
+
+        return response()->json(null, 201);
     }
 }
