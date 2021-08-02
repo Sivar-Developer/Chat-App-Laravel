@@ -25,6 +25,27 @@ class ChatController extends Controller
         return response()->json($chatMessages, 200);
     }
 
+    public function conversationWithUser($user_id)
+    {
+        if($user_id) {
+            $chatConversationIds = ChatParticipant::where('user_id', auth('api')->id())->get()->pluck('chat_conversation_id');
+            $chatConversations = ChatConversation::with('chatParticipants.user')->whereIn('id', $chatConversationIds)->get();
+            $chatConversationId = null;
+            foreach($chatConversations as $chatConversation) {
+                foreach($chatConversation['chatParticipants'] as $participant) {
+                    if($participant['user_id'] == $user_id) {
+                        $chatConversationId = $chatConversation->id;
+                    }
+                }
+            }
+    
+            return $this->conversation($chatConversationId);
+        } else {
+            return response()->json(null, 404);
+        }
+        
+    }
+
     public function storeMessage(Request $request)
     {
         $chatConversation = ChatConversation::updateOrCreate(['id' => request('chat_conversation_id')],['creator_id' => auth('api')->id()]);
