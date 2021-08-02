@@ -20,7 +20,7 @@ class ChatController extends Controller
 
     public function conversation($chat_conversation)
     {
-        $chatMessages = ChatMessage::with('sender')->where('chat_conversation_id', $chat_conversation)->latest()->get();
+        $chatMessages = ChatMessage::with('sender')->where('chat_conversation_id', $chat_conversation)->oldest()->get();
 
         return response()->json($chatMessages, 200);
     }
