@@ -30,6 +30,7 @@ class ChatController extends Controller
         $chatConversation = ChatConversation::updateOrCreate(['id' => request('chat_conversation_id')],['creator_id' => auth('api')->id()]);
 
         $chatConversation->chatParticipants()->updateOrCreate(['user_id' => request('chat_participant_id')]);
+        $chatConversation->chatParticipants()->updateOrCreate(['user_id' => auth('api')->id()]);
 
         ChatMessage::create([
             'sender_id' => auth('api')->id(),
