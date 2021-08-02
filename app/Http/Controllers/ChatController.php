@@ -13,7 +13,7 @@ class ChatController extends Controller
     public function conversations()
     {
         $chatConversationIds = ChatParticipant::where('user_id', auth('api')->id())->get()->pluck('chat_conversation_id');
-        $chatConversations = ChatConversation::with('chatMessages')->with('chatParticipants')->whereIn('id', $chatConversationIds)->get();
+        $chatConversations = ChatConversation::with('chatMessages')->with('chatParticipants.user')->whereIn('id', $chatConversationIds)->get();
 
         return response()->json($chatConversations, 200);
     }
