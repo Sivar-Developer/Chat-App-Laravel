@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\ChatConversation;
 use App\Models\ChatParticipant;
 use App\Models\ChatMessage;
+use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -48,7 +49,7 @@ class ChatController extends Controller
 
     public function storeMessage(Request $request)
     {
-        $chatConversation = ChatConversation::updateOrCreate(['id' => request('chat_conversation_id')],['creator_id' => auth('api')->id()]);
+        $chatConversation = ChatConversation::updateOrCreate(['id' => request('chat_conversation_id')],['creator_id' => auth('api')->id(), 'updated_at' => Carbon::now()]);
 
         $chatConversation->chatParticipants()->updateOrCreate(['user_id' => request('chat_participant_id')]);
         $chatConversation->chatParticipants()->updateOrCreate(['user_id' => auth('api')->id()]);
