@@ -42,6 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'avatarImageUrl',
+    ];
+
+    public function getAvatarImageUrlAttribute() {
+        return 'https://ui-avatars.com/api/?name='.$this->name.'&color=7F9CF5&background=EBF4FF&size=500';
+    }
+
     public function chatConversations()
     {
         return $this->hasMany(ChatConversation::class, 'creator_id');
